@@ -13,7 +13,7 @@ import { useTodoContext } from "../../context/TodoContext";
 const TodoList = () => {
   const [hoveredId, setHoveredId] = useState("");
   const [editingId, setEditingId] = useState("");
-  const { todos, filteredTodos } = useTodoContext();
+  const { todos, filteredTodos, dispatch } = useTodoContext();
 
   const hasTodoList = todos.length > 0;
 
@@ -39,6 +39,14 @@ const TodoList = () => {
 
   const isEditing = (id: string) => {
     return id === editingId;
+  };
+
+  // 變更待辦事項狀態
+  const handleToggleStatus = (id: string) => {
+    dispatch({
+      type: "TOGGLE",
+      payload: { id: id },
+    });
   };
 
   return (
@@ -89,7 +97,10 @@ const TodoList = () => {
                     onMouseLeave={handleMouseLeave}
                   >
                     <Center minWidth={10}>
-                      <Checkbox.Root defaultChecked={completed}>
+                      <Checkbox.Root
+                        defaultChecked={completed}
+                        onChange={() => handleToggleStatus(id)}
+                      >
                         <Checkbox.HiddenInput />
                         <Checkbox.Control />
                       </Checkbox.Root>

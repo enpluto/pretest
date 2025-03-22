@@ -8,7 +8,7 @@ export type Todo = {
 
 export type Action =
   | { type: "ADD"; payload: Todo }
-  | { type: "TOGGLE" }
+  | { type: "TOGGLE"; payload: { id: string } }
   | { type: "EDIT" }
   | { type: "DELETE" }
   | { type: "DELETE_ALL_COMPLETED" };
@@ -22,6 +22,12 @@ export const todoReducer = (state: Todo[], action: Action) => {
   switch (action.type) {
     case "ADD":
       return [...state, action.payload];
+    case "TOGGLE":
+      return state.map((todo) =>
+        todo.id === action.payload.id
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      );
     default:
       return state;
   }
