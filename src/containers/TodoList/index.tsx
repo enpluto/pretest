@@ -5,10 +5,9 @@ import {
   Checkbox,
   Editable,
   Flex,
-  IconButton,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { SlPencil, SlTrash } from "react-icons/sl";
+import TodoActions from "../../components/TodoList/TodoActions";
 import { useTodoContext } from "../../context/TodoContext";
 
 const TodoList = () => {
@@ -137,35 +136,12 @@ const TodoList = () => {
                       {text}
                     </Card.Body>
                     {hasHovered(id) && (
-                      <Flex
-                        alignItems="center"
-                        justifyContent="right"
-                        gap={1}
-                        position="absolute"
-                        right={0}
-                        _hover={{ bg: "whiteAlpha.700" }}
-                        width="calc(100% - 40px)"
-                        height="full"
-                        rounded={5}
-                        paddingRight={2}
-                      >
-                        {completed || (
-                          <IconButton
-                            aria-label="Edit todo"
-                            variant="ghost"
-                            onClick={() => handleSetEditing(id)}
-                          >
-                            <SlPencil />
-                          </IconButton>
-                        )}
-                        <IconButton
-                          aria-label="Delete todo"
-                          variant="ghost"
-                          onClick={() => handleDeleteTodo(id)}
-                        >
-                          <SlTrash />
-                        </IconButton>
-                      </Flex>
+                      <TodoActions
+                        completed={completed}
+                        id={id}
+                        handleSetEditing={handleSetEditing}
+                        handleDeleteTodo={handleDeleteTodo}
+                      />
                     )}
                   </Card.Root>
                 )}
