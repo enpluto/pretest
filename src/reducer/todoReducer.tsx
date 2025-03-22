@@ -30,6 +30,8 @@ export const todoReducer = (state: Todo[], action: Action) => {
       );
     case "DELETE":
       return state.filter((todo) => todo.id !== action.payload.id);
+    case "DELETE_ALL_COMPLETED":
+      return state.filter((todo) => !todo.completed);
     default:
       return state;
   }
