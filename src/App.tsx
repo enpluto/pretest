@@ -3,8 +3,17 @@ import TodoFilter from "./containers/TodoFilter";
 import TodoFooter from "./containers/TodoFooter";
 import TodoInput from "./containers/TodoInput";
 import TodoList from "./containers/TodoList";
+import { useTodoContext } from "./context/TodoContext";
 
 function App() {
+  const { todos } = useTodoContext();
+
+  const hasTodoList = todos.length > 0;
+
+  const NoContent = () => {
+    return <Center height={200}>尚無任何待辦事項</Center>;
+  };
+
   return (
     <Center marginY={5}>
       <Flex direction="column" gap={4} maxWidth={500} width="full">
@@ -12,9 +21,15 @@ function App() {
           My Todo List
         </Text>
         <TodoInput />
-        <TodoFilter />
-        <TodoList />
-        <TodoFooter />
+        {hasTodoList ? (
+          <>
+            <TodoFilter />
+            <TodoList />
+            <TodoFooter />
+          </>
+        ) : (
+          <NoContent />
+        )}
       </Flex>
     </Center>
   );

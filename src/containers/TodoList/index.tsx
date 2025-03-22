@@ -1,4 +1,5 @@
 import {
+  AbsoluteCenter,
   Card,
   Center,
   Checkbox,
@@ -13,9 +14,10 @@ import { useTodoContext } from "../../context/TodoContext";
 const TodoList = () => {
   const [hoveredId, setHoveredId] = useState("");
   const [editingId, setEditingId] = useState("");
-  const { todos, filteredTodos, dispatch } = useTodoContext();
+  const { filteredTodos, dispatch, activeTab } = useTodoContext();
 
-  const hasTodoList = todos.length > 0;
+  // 篩選後的清單是否存在項目
+  const emptyFilteredList = filteredTodos.length < 1;
 
   const handleMouseEnter = (id: string) => {
     setHoveredId(id);
@@ -64,7 +66,11 @@ const TodoList = () => {
 
   return (
     <>
-      {hasTodoList ? (
+      {emptyFilteredList ? (
+        <Card.Root height="58px">
+          <AbsoluteCenter axis="both">無{activeTab}事項</AbsoluteCenter>
+        </Card.Root>
+      ) : (
         <Flex direction="column" gap={1}>
           {filteredTodos.map((todo) => {
             const { id, text, completed } = todo;
@@ -167,8 +173,6 @@ const TodoList = () => {
             );
           })}
         </Flex>
-      ) : (
-        <Center height={200}>尚無任何待辦事項</Center>
       )}
     </>
   );
