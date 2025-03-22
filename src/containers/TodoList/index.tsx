@@ -8,28 +8,13 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { SlPencil, SlTrash } from "react-icons/sl";
-
-const todos = [
-  {
-    id: "1",
-    text: "This is the card body.",
-    completed: true,
-  },
-  {
-    id: "2",
-    text: "This is the card body. This is the card body.",
-    completed: false,
-  },
-  {
-    id: "3",
-    text: "This is the card body. This is the card body. This is the card body.",
-    completed: false,
-  },
-];
+import { useTodoContext } from "../../context/TodoContext";
 
 const TodoList = () => {
   const [hoveredId, setHoveredId] = useState("");
   const [editingId, setEditingId] = useState("");
+  const { todos } = useTodoContext();
+
   const hasTodoList = todos.length > 0;
 
   const handleMouseEnter = (id: string) => {
