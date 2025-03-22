@@ -1,4 +1,4 @@
-export type Filter = "全部" | "已完成" | "待完成";
+export type Filter = "全部" | "已完成" | "未完成";
 
 export type Todo = {
   id: string;

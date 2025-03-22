@@ -13,7 +13,7 @@ import { useTodoContext } from "../../context/TodoContext";
 const TodoList = () => {
   const [hoveredId, setHoveredId] = useState("");
   const [editingId, setEditingId] = useState("");
-  const { todos } = useTodoContext();
+  const { todos, filteredTodos } = useTodoContext();
 
   const hasTodoList = todos.length > 0;
 
@@ -45,7 +45,7 @@ const TodoList = () => {
     <>
       {hasTodoList ? (
         <Flex direction="column" gap={1}>
-          {todos.map((todo) => {
+          {filteredTodos.map((todo) => {
             const { id, text, completed } = todo;
             return (
               <>
