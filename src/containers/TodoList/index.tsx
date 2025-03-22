@@ -8,28 +8,13 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { SlPencil, SlTrash } from "react-icons/sl";
-
-const todos = [
-  {
-    id: "1",
-    text: "This is the card body.",
-    completed: true,
-  },
-  {
-    id: "2",
-    text: "This is the card body. This is the card body.",
-    completed: false,
-  },
-  {
-    id: "3",
-    text: "This is the card body. This is the card body. This is the card body.",
-    completed: false,
-  },
-];
+import { useTodoContext } from "../../context/TodoContext";
 
 const TodoList = () => {
   const [hoveredId, setHoveredId] = useState("");
   const [editingId, setEditingId] = useState("");
+  const { todos, filteredTodos, dispatch } = useTodoContext();
+
   const hasTodoList = todos.length > 0;
 
   const handleMouseEnter = (id: string) => {
@@ -48,7 +33,12 @@ const TodoList = () => {
     setEditingId(id);
   };
 
-  const handleTextChange = (id: string) => {
+  // 編輯待辦事項
+  const handleTextChange = (id: string, newText: string) => {
+    dispatch({
+      type: "EDIT",
+      payload: { id, text: newText },
+    });
     setEditingId("");
   };
 
@@ -56,11 +46,27 @@ const TodoList = () => {
     return id === editingId;
   };
 
+  // 變更待辦事項狀態
+  const handleToggleStatus = (id: string) => {
+    dispatch({
+      type: "TOGGLE",
+      payload: { id: id },
+    });
+  };
+
+  // 刪除單一待辦事項
+  const handleDeleteTodo = (id: string) => {
+    dispatch({
+      type: "DELETE",
+      payload: { id: id },
+    });
+  };
+
   return (
     <>
       {hasTodoList ? (
         <Flex direction="column" gap={1}>
-          {todos.map((todo) => {
+          {filteredTodos.map((todo) => {
             const { id, text, completed } = todo;
             return (
               <>
@@ -75,7 +81,7 @@ const TodoList = () => {
                     <Editable.Root
                       textAlign="start"
                       defaultValue={text}
-                      onValueCommit={() => handleTextChange(id)}
+                      onValueCommit={(e) => handleTextChange(id, e.value)}
                     >
                       <Editable.Preview
                         width="full"
@@ -104,7 +110,10 @@ const TodoList = () => {
                     onMouseLeave={handleMouseLeave}
                   >
                     <Center minWidth={10}>
-                      <Checkbox.Root defaultChecked={completed}>
+                      <Checkbox.Root
+                        defaultChecked={completed}
+                        onChange={() => handleToggleStatus(id)}
+                      >
                         <Checkbox.HiddenInput />
                         <Checkbox.Control />
                       </Checkbox.Root>
@@ -143,7 +152,11 @@ const TodoList = () => {
                             <SlPencil />
                           </IconButton>
                         )}
-                        <IconButton aria-label="Delete todo" variant="ghost">
+                        <IconButton
+                          aria-label="Delete todo"
+                          variant="ghost"
+                          onClick={() => handleDeleteTodo(id)}
+                        >
                           <SlTrash />
                         </IconButton>
                       </Flex>
