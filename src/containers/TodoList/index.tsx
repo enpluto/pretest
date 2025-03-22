@@ -13,9 +13,7 @@ import { useTodoContext } from "../../context/TodoContext";
 const TodoList = () => {
   const [hoveredId, setHoveredId] = useState("");
   const [editingId, setEditingId] = useState("");
-  const { todos, filteredTodos, dispatch } = useTodoContext();
-
-  const hasTodoList = todos.length > 0;
+  const { filteredTodos, dispatch } = useTodoContext();
 
   const handleMouseEnter = (id: string) => {
     setHoveredId(id);
@@ -63,114 +61,108 @@ const TodoList = () => {
   };
 
   return (
-    <>
-      {hasTodoList ? (
-        <Flex direction="column" gap={1}>
-          {filteredTodos.map((todo) => {
-            const { id, text, completed } = todo;
-            return (
-              <>
-                {isEditing(id) ? (
-                  <Card.Root
-                    display="flex"
-                    justifyContent="center"
+    <Flex direction="column" gap={1}>
+      {filteredTodos.map((todo) => {
+        const { id, text, completed } = todo;
+        return (
+          <>
+            {isEditing(id) ? (
+              <Card.Root
+                display="flex"
+                justifyContent="center"
+                width="full"
+                minHeight="58px"
+                padding={2}
+              >
+                <Editable.Root
+                  textAlign="start"
+                  defaultValue={text}
+                  onValueCommit={(e) => handleTextChange(id, e.value)}
+                >
+                  <Editable.Preview
                     width="full"
-                    minHeight="58px"
-                    padding={2}
+                    marginLeft={11}
+                    paddingLeft={4}
+                    fontSize="md"
+                  />
+                  <Editable.Input
+                    width="full"
+                    marginLeft={11}
+                    paddingLeft={4}
+                    fontSize="md"
+                  />
+                </Editable.Root>
+              </Card.Root>
+            ) : (
+              <Card.Root
+                size="sm"
+                display="flex"
+                flexDirection="row"
+                gap={1}
+                paddingLeft={2}
+                position="relative"
+                key={id}
+                onMouseEnter={() => handleMouseEnter(id)}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Center minWidth={10}>
+                  <Checkbox.Root
+                    defaultChecked={completed}
+                    onChange={() => handleToggleStatus(id)}
                   >
-                    <Editable.Root
-                      textAlign="start"
-                      defaultValue={text}
-                      onValueCommit={(e) => handleTextChange(id, e.value)}
-                    >
-                      <Editable.Preview
-                        width="full"
-                        marginLeft={11}
-                        paddingLeft={4}
-                        fontSize="md"
-                      />
-                      <Editable.Input
-                        width="full"
-                        marginLeft={11}
-                        paddingLeft={4}
-                        fontSize="md"
-                      />
-                    </Editable.Root>
-                  </Card.Root>
-                ) : (
-                  <Card.Root
-                    size="sm"
-                    display="flex"
-                    flexDirection="row"
+                    <Checkbox.HiddenInput />
+                    <Checkbox.Control />
+                  </Checkbox.Root>
+                </Center>
+                <Card.Body
+                  style={
+                    completed
+                      ? {
+                          textDecoration: "line-through",
+                          color: "lightgray",
+                        }
+                      : {}
+                  }
+                >
+                  {text}
+                </Card.Body>
+                {hasHovered(id) && (
+                  <Flex
+                    alignItems="center"
+                    justifyContent="right"
                     gap={1}
-                    paddingLeft={2}
-                    position="relative"
-                    key={id}
-                    onMouseEnter={() => handleMouseEnter(id)}
-                    onMouseLeave={handleMouseLeave}
+                    position="absolute"
+                    right={0}
+                    _hover={{ bg: "whiteAlpha.700" }}
+                    width="calc(100% - 40px)"
+                    height="full"
+                    rounded={5}
+                    paddingRight={2}
                   >
-                    <Center minWidth={10}>
-                      <Checkbox.Root
-                        defaultChecked={completed}
-                        onChange={() => handleToggleStatus(id)}
+                    {completed || (
+                      <IconButton
+                        aria-label="Edit todo"
+                        variant="ghost"
+                        onClick={() => handleSetEditing(id)}
                       >
-                        <Checkbox.HiddenInput />
-                        <Checkbox.Control />
-                      </Checkbox.Root>
-                    </Center>
-                    <Card.Body
-                      style={
-                        completed
-                          ? {
-                              textDecoration: "line-through",
-                              color: "lightgray",
-                            }
-                          : {}
-                      }
-                    >
-                      {text}
-                    </Card.Body>
-                    {hasHovered(id) && (
-                      <Flex
-                        alignItems="center"
-                        justifyContent="right"
-                        gap={1}
-                        position="absolute"
-                        right={0}
-                        _hover={{ bg: "whiteAlpha.700" }}
-                        width="calc(100% - 40px)"
-                        height="full"
-                        rounded={5}
-                        paddingRight={2}
-                      >
-                        {completed || (
-                          <IconButton
-                            aria-label="Edit todo"
-                            variant="ghost"
-                            onClick={() => handleSetEditing(id)}
-                          >
-                            <SlPencil />
-                          </IconButton>
-                        )}
-                        <IconButton
-                          aria-label="Delete todo"
-                          variant="ghost"
-                          onClick={() => handleDeleteTodo(id)}
-                        >
-                          <SlTrash />
-                        </IconButton>
-                      </Flex>
+                        <SlPencil />
+                      </IconButton>
                     )}
-                  </Card.Root>
+                    <IconButton
+                      aria-label="Delete todo"
+                      variant="ghost"
+                      onClick={() => handleDeleteTodo(id)}
+                    >
+                      <SlTrash />
+                    </IconButton>
+                  </Flex>
                 )}
-              </>
-            );
-          })}
-        </Flex>
-      ) : (
-        <Center height={200}>尚無任何待辦事項</Center>
-      )}
-    </>
+              </Card.Root>
+            )}
+          </>
+        );
+      })}
+    </Flex>
   );
 };
 
