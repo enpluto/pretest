@@ -33,7 +33,12 @@ const TodoList = () => {
     setEditingId(id);
   };
 
-  const handleTextChange = (id: string) => {
+  // 編輯待辦事項
+  const handleTextChange = (id: string, newText: string) => {
+    dispatch({
+      type: "EDIT",
+      payload: { id, text: newText },
+    });
     setEditingId("");
   };
 
@@ -76,7 +81,7 @@ const TodoList = () => {
                     <Editable.Root
                       textAlign="start"
                       defaultValue={text}
-                      onValueCommit={() => handleTextChange(id)}
+                      onValueCommit={(e) => handleTextChange(id, e.value)}
                     >
                       <Editable.Preview
                         width="full"
