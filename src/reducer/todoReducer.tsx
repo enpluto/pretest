@@ -13,7 +13,10 @@ export type Action =
   | { type: "DELETE" }
   | { type: "DELETE_ALL_COMPLETED" };
 
-export const initialState = [];
+export const getInitialState = (): Todo[] => {
+  const storedTodos = localStorage.getItem("todos");
+  return storedTodos ? JSON.parse(storedTodos) : [];
+};
 
 export const todoReducer = (state: Todo[], action: Action) => {
   switch (action.type) {
