@@ -49,6 +49,14 @@ const TodoList = () => {
     });
   };
 
+  // 刪除單一待辦事項
+  const handleDeleteTodo = (id: string) => {
+    dispatch({
+      type: "DELETE",
+      payload: { id: id },
+    });
+  };
+
   return (
     <>
       {hasTodoList ? (
@@ -139,7 +147,11 @@ const TodoList = () => {
                             <SlPencil />
                           </IconButton>
                         )}
-                        <IconButton aria-label="Delete todo" variant="ghost">
+                        <IconButton
+                          aria-label="Delete todo"
+                          variant="ghost"
+                          onClick={() => handleDeleteTodo(id)}
+                        >
                           <SlTrash />
                         </IconButton>
                       </Flex>

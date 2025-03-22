@@ -10,7 +10,7 @@ export type Action =
   | { type: "ADD"; payload: Todo }
   | { type: "TOGGLE"; payload: { id: string } }
   | { type: "EDIT" }
-  | { type: "DELETE" }
+  | { type: "DELETE"; payload: { id: string } }
   | { type: "DELETE_ALL_COMPLETED" };
 
 export const getInitialState = (): Todo[] => {
@@ -28,6 +28,8 @@ export const todoReducer = (state: Todo[], action: Action) => {
           ? { ...todo, completed: !todo.completed }
           : todo
       );
+    case "DELETE":
+      return state.filter((todo) => todo.id !== action.payload.id);
     default:
       return state;
   }
