@@ -1,5 +1,6 @@
-import { AbsoluteCenter, Card, Editable, Flex } from "@chakra-ui/react";
+import { AbsoluteCenter, Card, Flex } from "@chakra-ui/react";
 import { useState } from "react";
+import EditableInput from "../../components/TodoList/EditableInput";
 import TodoActions from "../../components/TodoList/TodoActions";
 import TodoCheckbox from "../../components/TodoList/TodoCheckbox";
 import { useTodoContext } from "../../context/TodoContext";
@@ -70,32 +71,11 @@ const TodoList = () => {
             return (
               <>
                 {isEditing(id) ? (
-                  <Card.Root
-                    display="flex"
-                    justifyContent="center"
-                    width="full"
-                    minHeight="58px"
-                    padding={2}
-                  >
-                    <Editable.Root
-                      textAlign="start"
-                      defaultValue={text}
-                      onValueCommit={(e) => handleTextChange(id, e.value)}
-                    >
-                      <Editable.Preview
-                        width="full"
-                        marginLeft={11}
-                        paddingLeft={4}
-                        fontSize="md"
-                      />
-                      <Editable.Input
-                        width="full"
-                        marginLeft={11}
-                        paddingLeft={4}
-                        fontSize="md"
-                      />
-                    </Editable.Root>
-                  </Card.Root>
+                  <EditableInput
+                    text={text}
+                    id={id}
+                    handleTextChange={handleTextChange}
+                  />
                 ) : (
                   <Card.Root
                     size="sm"
