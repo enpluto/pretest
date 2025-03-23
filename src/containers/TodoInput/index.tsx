@@ -13,7 +13,8 @@ const TodoInput = () => {
 
   // 使用鍵盤 enter 送出
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    // e.nativeEvent.isComposing 檢查是否屬於輸入法組字狀態
+    if (e.key === "Enter" && !e.nativeEvent.isComposing) {
       handleSubmit();
     }
   };
