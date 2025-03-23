@@ -1,4 +1,5 @@
 import { Center, Flex, Text } from "@chakra-ui/react";
+import NoContent from "./components/common/NoContent";
 import TodoFilter from "./containers/TodoFilter";
 import TodoFooter from "./containers/TodoFooter";
 import TodoInput from "./containers/TodoInput";
@@ -8,11 +9,8 @@ import { useTodoContext } from "./context/TodoContext";
 function App() {
   const { todos } = useTodoContext();
 
+  // 確認待辦事項是否為空
   const hasTodoList = todos.length > 0;
-
-  const NoContent = () => {
-    return <Center height={200}>尚無任何待辦事項</Center>;
-  };
 
   return (
     <Center marginY={5}>
