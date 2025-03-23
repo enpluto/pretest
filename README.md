@@ -1,54 +1,48 @@
-# React + TypeScript + Vite
+# My Todo List 
+以 localStorage 儲存待辦事項。
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 功能清單
+- 新增事項
+- 編輯事項
+- 變更事項狀態（已完成／未完成）
+- 刪除事項
+- 刪除所有完成事項，包含 sweetAlert2 提示
+- 查看不同狀態（全部／已完成／未完成）的事項
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 專案架構
+```
+src  
+├── components  // UI 元件
+├── containers  // 邏輯層元件
+├── context     // 全局狀態管理
+└── reducer     // 狀態更新邏輯
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Git 規範
+### Branch
+| Branch | Description |
+| ------ | ----------- |
+| `dev` | 開發中的分支 |
+| `layout` | 新增頁面樣式 |
+| `feature/-*` | 新增功能 |
+| `refactor/-*` | 重構功能 |
+| `fix/-*` | 修復 |
+| `chore/-*` | 維護 |
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Commits
+| Type | Description |
+| ---- | ----------- |
+| `feat` | 新增功能 |
+| `fix` | 修正現有功能的錯誤 |
+| `refactor` | 不影響現有功能的重構 |
+| `chore` | 維護 (安裝套件、移動資料夾等) |
+| `style` |	修正樣式 |
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+
+## 技術規格
+### 前端
+- React.js
+- TypeScript
+- SweetAlert2
+- Chakra UI
+- Vite
