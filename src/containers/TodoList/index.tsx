@@ -16,7 +16,7 @@ const TodoList = () => {
       ) : (
         <Flex direction="column" gap={1}>
           {filteredTodos.map((todo) => (
-            <SingleCard todo={todo} />
+            <SingleCard todo={todo} key={todo.id} />
           ))}
         </Flex>
       )}
