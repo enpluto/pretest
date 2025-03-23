@@ -1,13 +1,7 @@
-import {
-  AbsoluteCenter,
-  Card,
-  Center,
-  Checkbox,
-  Editable,
-  Flex,
-} from "@chakra-ui/react";
+import { AbsoluteCenter, Card, Editable, Flex } from "@chakra-ui/react";
 import { useState } from "react";
 import TodoActions from "../../components/TodoList/TodoActions";
+import TodoCheckbox from "../../components/TodoList/TodoCheckbox";
 import { useTodoContext } from "../../context/TodoContext";
 
 const TodoList = () => {
@@ -114,15 +108,11 @@ const TodoList = () => {
                     onMouseEnter={() => handleMouseEnter(id)}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <Center minWidth={10}>
-                      <Checkbox.Root
-                        defaultChecked={completed}
-                        onChange={() => handleToggleStatus(id)}
-                      >
-                        <Checkbox.HiddenInput />
-                        <Checkbox.Control />
-                      </Checkbox.Root>
-                    </Center>
+                    <TodoCheckbox
+                      completed={completed}
+                      id={id}
+                      handleToggleStatus={handleToggleStatus}
+                    />
                     <Card.Body
                       style={
                         completed
