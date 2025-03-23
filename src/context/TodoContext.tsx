@@ -1,18 +1,5 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
-import {
-  Action,
-  Filter,
-  getInitialState,
-  Todo,
-  todoReducer,
-} from "../reducer/todoReducer";
+import { createContext, useContext } from "react";
+import { Action, Filter, Todo } from "../reducer/todoReducer";
 
 interface TodoContextType {
   activeTab: string;
@@ -22,36 +9,7 @@ interface TodoContextType {
   dispatch: React.Dispatch<Action>;
 }
 
-interface TodoProvider {
-  children: ReactNode;
-}
-
-const TodoContext = createContext<TodoContextType | null>(null);
-
-export const TodoProvider = ({ children }: TodoProvider) => {
-  const [activeTab, setActiveTab] = useState<Filter>("全部");
-  const [todos, dispatch] = useReducer(todoReducer, getInitialState());
-
-  const handleFilter = (tab: Filter) => setActiveTab(tab);
-
-  const filteredTodos = todos.filter((todo) => {
-    if (activeTab === "全部") return true;
-    if (activeTab === "已完成") return todo.completed;
-    if (activeTab === "未完成") return !todo.completed;
-  });
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
-
-  return (
-    <TodoContext.Provider
-      value={{ activeTab, handleFilter, todos, filteredTodos, dispatch }}
-    >
-      {children}
-    </TodoContext.Provider>
-  );
-};
+export const TodoContext = createContext<TodoContextType | null>(null);
 
 export const useTodoContext = () => {
   const context = useContext(TodoContext);
