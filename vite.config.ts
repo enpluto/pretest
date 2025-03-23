@@ -5,4 +5,14 @@ import { defineConfig } from "vite";
 export default defineConfig({
   base: "/pretest/",
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        // 將 Chakra-ui 拆分成獨立 chunk
+        manualChunks(id) {
+          if (id.includes("@chakra-ui")) return "chakra-ui";
+        },
+      },
+    },
+  },
 });
