@@ -1,5 +1,6 @@
-import { AbsoluteCenter, Card, Flex } from "@chakra-ui/react";
+import { Card, Flex } from "@chakra-ui/react";
 import { useState } from "react";
+import EmptyList from "../../components/common/EmptyList";
 import EditableInput from "../../components/TodoList/EditableInput";
 import TodoActions from "../../components/TodoList/TodoActions";
 import TodoCheckbox from "../../components/TodoList/TodoCheckbox";
@@ -61,9 +62,7 @@ const TodoList = () => {
   return (
     <>
       {emptyFilteredList ? (
-        <Card.Root height="58px">
-          <AbsoluteCenter axis="both">無{activeTab}事項</AbsoluteCenter>
-        </Card.Root>
+        <EmptyList activeTab={activeTab} />
       ) : (
         <Flex direction="column" gap={1}>
           {filteredTodos.map((todo) => {
